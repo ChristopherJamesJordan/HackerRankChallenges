@@ -1,0 +1,62 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int numDials = 5;
+        int[] originalDials = new int[numDials];
+        int[] finalDials = new int[numDials];
+        
+        // Read the original combo position
+        for (int i = 0; i < numDials; i++){
+            originalDials[i] = scan.nextInt();
+        }
+        
+        // Read the final combo position
+        for (int i = 0; i < numDials; i++){
+            finalDials[i] = scan.nextInt();
+        }
+        
+        // Determine the minimum number of moves to reach the final combination
+        int moves = 0;
+        for (int i = 0; i < numDials; i++){
+            // If the dial is already in the right position, do nothing
+            if (originalDials[i] == finalDials[i]){
+                continue;
+            }
+            else{
+                // Create variables and initialize as percaution
+                int posDirection = 0;
+                int negDirection = 0;
+                
+                // If the final value is greater than the current value
+                if(originalDials[i] < finalDials[i]){
+                    // Spinning the dials in increasing value is just the differenct
+                    posDirection = finalDials[i] - originalDials[i];
+
+                    // View position '0' as a value of 10 to determine the descreasing spin moves
+                    negDirection = originalDials[i] + 10 - finalDials[i];
+                }
+                else{
+                    // Degreasing spin is just the difference in values
+                    negDirection = originalDials[i] - finalDials[i];
+                    
+                    // Increasing spin uses 10 as the value of the '0' position
+                    posDirection = 10 - originalDials[i] + finalDials[i];
+                }
+                
+                // Determine the shortest path and add to total
+                if (posDirection < negDirection){
+                    moves += posDirection;
+                } else{
+                    moves += negDirection;
+                }
+            }
+        }
+        
+        // Print minimum number of dial moves
+        System.out.println(moves);
+    }
+}
